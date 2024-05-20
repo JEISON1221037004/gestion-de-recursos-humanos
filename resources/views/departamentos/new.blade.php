@@ -4,23 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Editar Departamento</title>
+    <title>Agregar Nuevo Departamento</title>
 </head>
 <body>
 <div class="container">
-    <h1>Editar Departamento</h1>
-    <form action="{{ route('departamentos.update', $departamento->id) }}" method="POST">
+    <h1>Agregar Nuevo Departamento</h1>
+    <form action="{{ route('departamentos.store') }}" method="POST">
         @csrf
-        @method('PUT')
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $departamento->nombre }}" required>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
         </div>
         <div class="mb-3">
             <label for="ubicacion" class="form-label">Ubicación</label>
-            <input type="text" class="form-control" id="ubicacion" name="ubicacion" value="{{ $departamento->ubicacion }}" required>
+            <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
         </div>
-        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <button type="submit" class="btn btn-primary">Crear</button>
         <a href="{{ route('departamentos.index') }}" class="btn btn-warning">Cancelar</a>
     </form>
 </div>
