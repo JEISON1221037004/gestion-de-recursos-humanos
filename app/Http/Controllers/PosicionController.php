@@ -9,7 +9,7 @@ class PosicionController extends Controller
 {
     public function index()
     {
-        $posiciones = Posicion::all();
+        $posiciones= posicion::all();
         return view('posiciones.index', compact('posiciones'));
     }
 
@@ -51,4 +51,5 @@ class PosicionController extends Controller
         return redirect()->route('posiciones.index');
     }
 }
+
 
