@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evaluacion;
+use App\Models\Empleado;
 use Illuminate\Http\Request;
 
 class EvaluacionController extends Controller
