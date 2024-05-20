@@ -27,7 +27,7 @@ class HistorialSalarioController extends Controller
         return view('historial_salarios.new', compact('empleados'));
     }
 
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -44,32 +44,28 @@ class HistorialSalarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function edit(HistorialSalario $historialSalario)
     {
-        //
+        $empleados = Empleado::all();
+        return view('historial_salarios.edit', compact('historialSalario', 'empleados'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, HistorialSalario $historialSalario)
     {
-        //
+        $request->validate([
+            'empleado_id' => 'exists:empleados,id',
+            'salario_anterior' => 'numeric',
+            'salario_nuevo' => 'numeric',
+            'fecha_cambio' => 'date',
+        ]);
+
+        $historialSalario->update($request->all());
+        return redirect()->route('historial_salarios.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(HistorialSalario $historialSalario)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $historialSalario->delete();
+        return redirect()->route('historial_salarios.index');
     }
 }
