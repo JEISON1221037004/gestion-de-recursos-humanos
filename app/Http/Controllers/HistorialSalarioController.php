@@ -23,15 +23,22 @@ class HistorialSalarioController extends Controller
      */
     public function create()
     {
-        //
+        $empleados = Empleado::all();
+        return view('historial_salarios.new', compact('empleados'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'empleado_id' => 'required|exists:empleados,id',
+            'salario_anterior' => 'required|numeric',
+            'salario_nuevo' => 'required|numeric',
+            'fecha_cambio' => 'required|date',
+        ]);
+
+        HistorialSalario::create($request->all());
+        return redirect()->route('historial_salarios.index');
     }
 
     /**
