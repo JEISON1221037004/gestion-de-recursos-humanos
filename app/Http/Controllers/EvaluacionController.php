@@ -21,7 +21,7 @@ class EvaluacionController extends Controller
         return view('evaluaciones.new', compact('empleados'));
     }
 
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -39,32 +39,29 @@ class EvaluacionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function edit(Evaluacion $evaluacion)
     {
-        //
+        $empleados = Empleado::all();
+        return view('evaluaciones.edit', compact('evaluacion', 'empleados'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Evaluacion $evaluacion)
     {
-        //
+        $request->validate([
+            'empleado_id' => 'exists:empleados,id',
+            'evaluador_id' => 'exists:empleados,id',
+            'fecha' => 'date',
+            'puntuacion' => 'integer',
+            'comentarios' => 'string',
+        ]);
+
+        $evaluacion->update($request->all());
+        return redirect()->route('evaluaciones.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Evaluacion $evaluacion)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $evaluacion->delete();
+        return redirect()->route('evaluaciones.index');
     }
 }
