@@ -17,15 +17,23 @@ class EvaluacionController extends Controller
      */
     public function create()
     {
-        //
+        $empleados = Empleado::all();
+        return view('evaluaciones.new', compact('empleados'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'empleado_id' => 'required|exists:empleados,id',
+            'evaluador_id' => 'required|exists:empleados,id',
+            'fecha' => 'required|date',
+            'puntuacion' => 'required|integer',
+            'comentarios' => 'required|string',
+        ]);
+
+        Evaluacion::create($request->all());
+        return redirect()->route('evaluaciones.index');
     }
 
     /**
