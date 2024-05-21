@@ -9,13 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->unsignedBigInteger('department_id');
             $table->timestamps();
+    
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
         });
     }
+    
+    
+
 
     /**
      * Reverse the migrations.
