@@ -3,47 +3,49 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Salary;
 use Illuminate\Http\Request;
 
 class SalaryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Salary::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'amount' => 'required|numeric',
+        ]);
+
+        $salary = Salary::create($validated);
+
+        return response()->json($salary, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Salary $salary)
     {
-        //
+        return $salary;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Salary $salary)
     {
-        //
+        $validated = $request->validate([
+            'employee_id' => 'sometimes|required|exists:employees,id',
+            'amount' => 'sometimes|required|numeric',
+        ]);
+
+        $salary->update($validated);
+
+        return response()->json($salary);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Salary $salary)
     {
-        //
+        $salary->delete();
+
+        return response()->json(null, 204);
     }
 }
