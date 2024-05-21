@@ -9,14 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('performance_reviews', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('employee_id');
+            $table->text('review');
+            $table->integer('score');
             $table->timestamps();
+    
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
