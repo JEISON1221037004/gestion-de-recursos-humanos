@@ -3,47 +3,49 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Position;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Position::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'department_id' => 'required|exists:departments,id',
+        ]);
+
+        $position = Position::create($validated);
+
+        return response()->json($position, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Position $position)
     {
-        //
+        return $position;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Position $position)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'department_id' => 'sometimes|required|exists:departments,id',
+        ]);
+
+        $position->update($validated);
+
+        return response()->json($position);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Position $position)
     {
-        //
+        $position->delete();
+
+        return response()->json(null, 204);
     }
 }
